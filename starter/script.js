@@ -27,11 +27,9 @@ function getCityId() {
           cityInfo.cityId = data[i].id.toString();
         }
       }
+      cityData(cityInfo);
     });
-
-  cityData(cityInfo);
 }
-
 
 function cityData(cityInfo) {
   var queryURL =
@@ -40,16 +38,11 @@ function cityData(cityInfo) {
     "&appid=" +
     weatehrAPIKey;
 
-  console.log(cityInfo.cityName);
-
   $.ajax({
     url: queryURL,
     method: "GET",
   })
     .then(function (response) {
-      return console.log(response);
+      console.log(response);
     })
-    .fail(function (error) {
-      console.log(error);
-    });
 }
