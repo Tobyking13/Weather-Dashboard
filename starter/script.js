@@ -28,23 +28,15 @@ function getCityId(name) {
         if (citySearch === cityList) {
           cityInfo.cityName = data[i].name;
           cityInfo.cityId = data[i].id;
-          
-
-          
-          
-
-          //$("#history").empty();
         } 
         else if (name === cityList) {
           cityInfo.cityName = data[i].name;
-           cityInfo.cityId = data[i].id;
-           cityData(cityInfo);
-      fiveDayForcast(cityInfo);
-     return renderButtons(cityInfo);
+           cityInfo.cityId = data[i].id; 
         }
       }
-      cityInfo.searchHistory.push(cityInfo.cityName);
-  
+      if(name === '' && citySearch !== '' ) {
+        cityInfo.searchHistory.push(cityInfo.cityName);
+      }
       cityData(cityInfo);
       fiveDayForcast(cityInfo);
       renderButtons(cityInfo);
