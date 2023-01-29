@@ -2,7 +2,7 @@ var weatherAPIKey = "a38638b883e12f2d3fec49b471358ae8";
 var cityInfo = {
   cityName: "",
   cityId: "",
-  searchHistory: ['Truro', 'Falmouth', 'Bristol'],
+  searchHistory: ["London", "Bangkok"],
 };
 
 // create function to use search box to get id from city.list.json
@@ -11,35 +11,58 @@ var cityInfo = {
 // use if state to compare .name to value
 $("#search-button").click(function (e) {
   e.preventDefault();
-  getCityId('');
+  var cityName = $("#search-input").val();
+  cityInfo.searchHistory.push(cityName);
+  cityInfo.cityName = cityName;
+
+  getId(cityInfo);
+  console.log(cityInfo);
+  renderButtons(cityInfo);
 });
 
-function getCityId(name) {
+function renderButtons(cityInfo) {
+  $("#history").empty();
+
+  for (i = 0; i < cityInfo.searchHistory.length; i++) {
+    var button = $("<button>");
+    button.text(cityInfo.searchHistory[i]);
+    button.attr("data-name", cityInfo.searchHistory[i]);
+    $("#history").append(button);
+
+    button.click(function (e) {
+      var buttonDataName = e.target.dataset.name;
+      console.log(buttonDataName);
+      cityInfo.cityName = buttonDataName;
+      getId(cityInfo);
+      renderButtons(cityInfo);
+      buttonData(e, cityInfo);
+    });
+  }
+  cityData(cityInfo);
+  fiveDayForcast(cityInfo);
+}
+
+function buttonData(e, cityInfo) {
+  for (i = 0; i < cityInfo.searchHistory.length; i++) {
+    buttonDataName = e.target.dataset.name;
+    if (buttonDataName === cityInfo.searchHistory[i]) {
+      getId(cityInfo);
+    }
+  }
+}
+
+function getId(cityInfo) {
   fetch("./starter/city.list.json")
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-      var citySearch = $("#search-input").val().toLowerCase();
-      name = name.toLowerCase()
-      
       for (i = 0; i < data.length; i++) {
-        var cityList = data[i].name.toLowerCase();
-        if (citySearch === cityList) {
-          cityInfo.cityName = data[i].name;
+        var cityData = data[i].name;
+        if (cityData === cityInfo.cityName) {
           cityInfo.cityId = data[i].id;
-        } 
-        else if (name === cityList) {
-          cityInfo.cityName = data[i].name;
-           cityInfo.cityId = data[i].id; 
         }
       }
-      if(name === '' && citySearch !== '' ) {
-        cityInfo.searchHistory.push(cityInfo.cityName);
-      }
-      cityData(cityInfo);
-      fiveDayForcast(cityInfo);
-      renderButtons(cityInfo);
     });
 }
 
@@ -60,7 +83,7 @@ function cityData(cityInfo) {
     var temp = (response.main.temp - 273.15).toFixed(2) + "°C";
     var humidity = response.main.humidity + "%";
     var windSpeed = (response.wind.speed * 3600) / 1000 + " KPH";
-    console.log(cityName, date, icon, temp, humidity, windSpeed)
+    console.log(cityName, date, icon, temp, humidity, windSpeed);
   });
 }
 
@@ -95,30 +118,8 @@ function fiveDayForcast(cityInfo) {
   });
 }
 
-function renderButtons(cityInfo) {
-  $("#history").empty();
-  
-  for (i = 0; i < cityInfo.searchHistory.length; i++) {
-    var button = $("<button>"); 
-    button.text(cityInfo.searchHistory[i]);
-    button.attr("dataset", cityInfo.searchHistory[i]);
-    $("#history").append(button);
-    
-    button.click(function(e) {
-      buttonInfo(e, cityInfo);
-    }) 
-  }
-}
-
-function buttonInfo(e, cityInfo) {
-  buttonDataset = e.target.innerText;
-  for(i = 0; i < cityInfo.searchHistory.length; i++) {
-    if(buttonDataset === cityInfo.searchHistory[i]) {
-      console.log("this is button: " + buttonDataset)
-      getCityId(buttonDataset);
-    }
-  }
-  
-}
-
 renderButtons(cityInfo);
+
+// RENDER ELEMENTS TO THE DOM
+// USE LOCALSTORAGE TO SAVE SEARCH HISTORY
+// 5 DAY FORCAST FIX DATES
