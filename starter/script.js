@@ -2,8 +2,19 @@ var weatherAPIKey = "a38638b883e12f2d3fec49b471358ae8";
 var cityInfo = {
   cityName: "",
   cityId: "",
-  searchHistory: ["London", "Bangkok"],
+  searchHistory: []
 };
+
+$(document).ready(function () {
+  var storedHistory = JSON.parse(localStorage.getItem("search-history"));
+  if (storedHistory !== null) {
+    cityInfo.searchHistory = storedHistory;
+    renderButtons(cityInfo);
+  }
+});
+
+
+
 
 // create function to use search box to get id from city.list.json
 
@@ -12,17 +23,23 @@ var cityInfo = {
 $("#search-button").click(function (e) {
   e.preventDefault();
   var cityName = $("#search-input").val();
+//  localStorageToSearchHistory()
   cityInfo.searchHistory.push(cityName);
+  console.log(cityInfo.searchHistory)
   cityInfo.cityName = cityName;
 
   getId(cityInfo);
-  console.log(cityInfo);
+  localStorage.setItem("search-history", JSON.stringify(cityInfo.searchHistory));
+
   renderButtons(cityInfo);
+
 });
 
 function renderButtons(cityInfo) {
+  
   $("#history").empty();
-
+  //cityInfo.searchHistory = JSON.parse('search-history')
+  console.log(cityInfo.searchHistory[1])
   for (i = 0; i < cityInfo.searchHistory.length; i++) {
     var button = $("<button>");
     button.text(cityInfo.searchHistory[i]);
@@ -32,10 +49,12 @@ function renderButtons(cityInfo) {
 
     button.click(function (e) {
       var buttonDataName = e.target.dataset.name;
-      console.log(buttonDataName);
       cityInfo.cityName = buttonDataName;
+
       getId(cityInfo);
       renderButtons(cityInfo);
+      localStorage.setItem("search-history", JSON.stringify(cityInfo.searchHistory));
+
       buttonData(e, cityInfo);
     });
   }
@@ -79,13 +98,14 @@ function cityData(cityInfo) {
     method: "GET",
   }).then(function (response) {
     var cityName = response.name;
+    console.log(cityName)
     var date = moment().format("MMMM Do YYYY");
     var icon = response.weather[0].icon;
     var temp = `Temperature: ${(response.main.temp - 273.15).toFixed(2)}°C`;
     var humidity = `Humidity: ${response.main.humidity}%`;
     var windSpeed = `Wind speed: ${(response.wind.speed * 3600) / 1000} KPH`;
 
-    console.log(cityName, date, icon, temp, humidity, windSpeed);
+   // console.log(cityName, date, icon, temp, humidity, windSpeed);
 
     var cityInfoHeader = $('<h1>').text(`${cityName} ${date} ${icon}`);
     var tempInfo = $('<p>').text(temp);
@@ -133,7 +153,7 @@ function fiveDayForcast(cityInfo) {
       var temp = (list.main.temp - 273.15).toFixed(2) + "°C";
       var humidity = list.main.humidity + "%";
 
-      console.log(icon, temp, humidity);
+     // console.log(icon, temp, humidity);
 
       var forecastDiv = $('<div>');
       forecastDiv.attr('class', "forecast-div")
@@ -162,3 +182,8 @@ renderButtons(cityInfo);
 // RENDER ELEMENTS TO THE DOM
 // USE LOCALSTORAGE TO SAVE SEARCH HISTORY
 // 5 DAY FORCAST FIX DATES
+
+// var storage = localStorage.getItem('search-history')
+// console.log(storage
+
+
