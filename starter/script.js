@@ -93,6 +93,7 @@ function cityData(cityInfo) {
     var humidityInfo = $('<p>').text(humidity);
 
     $('#today').empty();
+    $('#today').addClass('border')
     $('#today').append(cityInfoHeader)
     $('#today').append(tempInfo)
     $('#today').append(windInfo)
@@ -123,14 +124,35 @@ function fiveDayForcast(cityInfo) {
     url: queryURL,
     method: "GET",
   }).then(function (response) {
+    $('#forecast').empty();
     for (i = 0; i < 121; i += 8) {
       var list = response.list[i];
       // figure out 5 day date
+      var date = moment().format("MMMM Do YYYY");
       var icon = list.weather[0].icon;
       var temp = (list.main.temp - 273.15).toFixed(2) + "°C";
       var humidity = list.main.humidity + "%";
 
       console.log(icon, temp, humidity);
+
+      var forecastDiv = $('<div>');
+      forecastDiv.attr('class', "forecast-div")
+
+      
+
+      var forecastHeader = $('<h3>').text(date);
+      var iconInfo = $('<p>').text(icon);      
+      var tempInfo = $('<p>').text(temp);     
+      var humidityInfo = $('<p>').text(humidity); 
+
+      forecastDiv.append(forecastHeader)
+      forecastDiv.append(iconInfo)
+      forecastDiv.append(tempInfo)
+      forecastDiv.append(humidityInfo)
+     
+
+      $('#forecast').append(forecastDiv)
+
     }
   });
 }

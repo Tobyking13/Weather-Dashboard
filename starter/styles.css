@@ -56,3 +56,37 @@
         display: block;
         margin: 5px;
     }
+
+    #today {
+        
+        padding: 10px;
+        width: 100%;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+    }
+
+    #forecast {
+        display: flex;
+        justify-content: space-evenly;
+        
+    }
+
+    .forecast-div {
+        color: white;
+        background-image: linear-gradient(
+  45deg,
+  hsl(240deg 73% 19%) 0%,
+  hsl(224deg 100% 16%) 11%,
+  hsl(219deg 100% 15%) 22%,
+  hsl(215deg 100% 13%) 33%,
+  hsl(209deg 100% 11%) 44%,
+  hsl(201deg 100% 8%) 56%,
+  hsl(190deg 100% 6%) 67%,
+  hsl(175deg 100% 4%) 78%,
+  hsl(158deg 100% 3%) 89%,
+  hsl(150deg 83% 2%) 100%
+);
+        width: 18.2%;
+        /* border: 10px solid white; */
+        padding: 10px;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+    }
