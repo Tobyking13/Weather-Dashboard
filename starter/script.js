@@ -12,10 +12,6 @@ $(document).ready(function () {
     renderButtons(cityInfo);
   }
 });
-
-
-
-
 // create function to use search box to get id from city.list.json
 
 // get value from search-input
@@ -23,23 +19,15 @@ $(document).ready(function () {
 $("#search-button").click(function (e) {
   e.preventDefault();
   var cityName = $("#search-input").val();
-//  localStorageToSearchHistory()
   cityInfo.searchHistory.push(cityName);
-  console.log(cityInfo.searchHistory)
   cityInfo.cityName = cityName;
-
   getId(cityInfo);
   localStorage.setItem("search-history", JSON.stringify(cityInfo.searchHistory));
-
   renderButtons(cityInfo);
-  
-
 });
 
 function renderButtons(cityInfo) {
-  
   $("#history").empty();
-  
   for (i = 0; i < cityInfo.searchHistory.length; i++) {
     var button = $("<button>");
     button.text(cityInfo.searchHistory[i]);
@@ -50,11 +38,9 @@ function renderButtons(cityInfo) {
     button.click(function (e) {
       var buttonDataName = e.target.dataset.name;
       cityInfo.cityName = buttonDataName;
-
       getId(cityInfo);
       renderButtons(cityInfo);
       localStorage.setItem("search-history", JSON.stringify(cityInfo.searchHistory));
-
       buttonData(e, cityInfo);
     });
   }
@@ -98,32 +84,24 @@ function cityData(cityInfo) {
     method: "GET",
   }).then(function (response) {
     var cityName = response.name;
-    console.log(cityName)
     var date = moment().format("MMMM Do YYYY");
     var icon = `https://openweathermap.org/img/wn/${response.weather[0].icon}.png`;
     var temp = `Temperature: ${(response.main.temp - 273.15).toFixed(2)}°C`;
     var humidity = `Humidity: ${response.main.humidity}%`;
     var windSpeed = `Wind speed: ${(response.wind.speed * 3600) / 1000} KPH`;
 
-   // console.log(cityName, date, icon, temp, humidity, windSpeed);
-    var iconHeader = $('<img>').attr('src', icon)
-
-    var cityInfoHeader = $('<h1>').text(`${cityName} ${date}`).append(iconHeader);
+    var iconHeader = $('<img>').attr('src', icon);
+    var cityInfoHeader = $('<h1>').text(`${cityName}. ${date}`).append(iconHeader);
     var tempInfo = $('<p>').text(temp);
     var windInfo = $('<p>').text(windSpeed);
     var humidityInfo = $('<p>').text(humidity);
 
     $('#today').empty();
-    $('#today').attr('class', 'border mt-3')
-    $('#today').append(cityInfoHeader)
-    //$('#today').append(iconHeader)
-    $('#today').append(tempInfo)
-    $('#today').append(windInfo)
-
-    $('#today').append(humidityInfo)
-
-
-
+    $('#today').attr('class', 'border mt-3');
+    $('#today').append(cityInfoHeader);
+    $('#today').append(tempInfo);
+    $('#today').append(windInfo);
+    $('#today').append(humidityInfo);
   });
 }
 
@@ -149,32 +127,25 @@ function fiveDayForcast(cityInfo) {
     $('#forecast').empty();
     for (i = 0; i < 121; i += 8) {
       var list = response.list[i];
-      console.log(list)
       var date = moment.unix(list.dt).format("MMMM Do YYYY");
       var icon = `https://openweathermap.org/img/wn/${list.weather[0].icon}.png`;
-      var temp = (list.main.temp - 273.15).toFixed(2) + "°C";
-      var humidity = list.main.humidity + "%";
-
-      console.log(icon)
+      var temp = `Temperature: ${(list.main.temp - 273.15).toFixed(2)}°C`;
+      var humidity = `Humidity: ${list.main.humidity}%`
 
       var forecastDiv = $('<div>');
-      var iconHeader = $('<img>').attr('src', icon)
-      forecastDiv.attr('class', "forecast-div")
-
-      
+      var iconHeader = $('<img>').attr('src', icon);
+      forecastDiv.attr('class', "forecast-div");
 
       var forecastHeader = $('<h3>').text(date);
       var tempInfo = $('<p>').text(temp);     
       var humidityInfo = $('<p>').text(humidity); 
 
-      forecastDiv.append(forecastHeader)
-      forecastDiv.append(iconHeader)
-      forecastDiv.append(tempInfo)
-      forecastDiv.append(humidityInfo)
+      forecastDiv.append(forecastHeader);
+      forecastDiv.append(iconHeader);
+      forecastDiv.append(tempInfo);
+      forecastDiv.append(humidityInfo);
      
-
-      $('#forecast').append(forecastDiv)
-
+      $('#forecast').append(forecastDiv);
     }
   });
 }
