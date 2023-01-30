@@ -27,6 +27,7 @@ function renderButtons(cityInfo) {
     var button = $("<button>");
     button.text(cityInfo.searchHistory[i]);
     button.attr("data-name", cityInfo.searchHistory[i]);
+    button.addClass('btn btn-outline-dark');
     $("#history").append(button);
 
     button.click(function (e) {
@@ -80,10 +81,26 @@ function cityData(cityInfo) {
     var cityName = response.name;
     var date = moment().format("MMMM Do YYYY");
     var icon = response.weather[0].icon;
-    var temp = (response.main.temp - 273.15).toFixed(2) + "°C";
-    var humidity = response.main.humidity + "%";
-    var windSpeed = (response.wind.speed * 3600) / 1000 + " KPH";
+    var temp = `Temperature: ${(response.main.temp - 273.15).toFixed(2)}°C`;
+    var humidity = `Humidity: ${response.main.humidity}%`;
+    var windSpeed = `Wind speed: ${(response.wind.speed * 3600) / 1000} KPH`;
+
     console.log(cityName, date, icon, temp, humidity, windSpeed);
+
+    var cityInfoHeader = $('<h1>').text(`${cityName} ${date} ${icon}`);
+    var tempInfo = $('<p>').text(temp);
+    var windInfo = $('<p>').text(windSpeed);
+    var humidityInfo = $('<p>').text(humidity);
+
+    $('#today').empty();
+    $('#today').append(cityInfoHeader)
+    $('#today').append(tempInfo)
+    $('#today').append(windInfo)
+
+    $('#today').append(humidityInfo)
+
+
+
   });
 }
 
