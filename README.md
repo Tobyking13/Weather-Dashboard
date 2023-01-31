@@ -15,6 +15,7 @@ I did't really need to search for the city by ID, it was more of a learning expe
 - [Installation](#installation)
 - [Usage](#usage)
 - [Features](#features)
+- [Issues](#issues)
 
 ## Installation
 

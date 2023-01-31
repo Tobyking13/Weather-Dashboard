@@ -160,3 +160,6 @@ renderButtons(cityInfo);
 // console.log(storage
 
 
+
+
+console.log(moment())
