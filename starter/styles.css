@@ -5,6 +5,7 @@ input {
 #search-button {
   width: 400px !important;
   margin-top: 10px !important;
+  margin: 0px;
 }
 
 .btn {
