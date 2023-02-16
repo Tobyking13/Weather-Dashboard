@@ -88,11 +88,9 @@ function cityData(cityInfo) {
         var cityName = response.name;
         var date = moment().format("MMMM Do YYYY");
         var icon = `https://openweathermap.org/img/wn/${response.weather[0].icon}.png`;
-        var temp = `Temperature: ${(response.main.temp - 273.15).toFixed(2)}°C`;
+        var temp = `Temperature: ${(response.main.temp - 273.15).toFixed(0)}°C`;
         var humidity = `Humidity: ${response.main.humidity}%`;
-        var windSpeed = `Wind speed: ${
-          (response.wind.speed * 3600) / 1000
-        } KPH`;
+        var windSpeed = `Wind speed: ${((response.wind.speed * 3600) / 1000).toFixed(0)} KPH`;
 
         var iconHeader = $("<img>").attr("src", icon);
         var cityInfoHeader = $("<h1>")
@@ -132,20 +130,25 @@ function fiveDayForcast(id) {
       var list = response.list[i];
       var date = moment(list.dt_txt).format("MMMM Do YYYY");
       var icon = `https://openweathermap.org/img/wn/${list.weather[0].icon}.png`;
-      var temp = `Temperature: ${(list.main.temp - 273.15).toFixed(2)}°C`;
+      var temp = `Temperature: ${(list.main.temp - 273.15).toFixed(0)}°C`;
       var humidity = `Humidity: ${list.main.humidity}%`;
+      var windSpeed = `Wind speed: ${((list.wind.speed * 3600) / 1000).toFixed(0)} KPH`;
 
+      console.log(response)
       var forecastDiv = $("<div>");
       var iconHeader = $("<img>").attr("src", icon);
       forecastDiv.attr("class", "forecast-div");
 
       var forecastHeader = $("<h3>").text(date);
       var tempInfo = $("<p>").text(temp);
+      var windInfo = $("<p>").text(windSpeed);
+      // windInfo.css('font-size', '100%')
       var humidityInfo = $("<p>").text(humidity);
 
       forecastDiv.append(forecastHeader);
       forecastDiv.append(iconHeader);
       forecastDiv.append(tempInfo);
+      forecastDiv.append(windInfo)
       forecastDiv.append(humidityInfo);
 
       $("#forecast").append(forecastDiv);
