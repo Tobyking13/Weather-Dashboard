@@ -133,8 +133,7 @@ function fiveDayForcast(id) {
       var temp = `Temperature: ${(list.main.temp - 273.15).toFixed(0)}°C`;
       var humidity = `Humidity: ${list.main.humidity}%`;
       var windSpeed = `Wind speed: ${((list.wind.speed * 3600) / 1000).toFixed(0)} KPH`;
-
-      console.log(response)
+      
       var forecastDiv = $("<div>");
       var iconHeader = $("<img>").attr("src", icon);
       forecastDiv.attr("class", "forecast-div");
