@@ -32,7 +32,3 @@ Screenshot of the webpage live on Github pages.
 * Infomation shown includes; temperature, humidity, windspeed & an icon showing the current weather conditions.
 * The application will store user search history to local storage allowing easy access to previously searched results.  
 
-## Issues
-
-* The application requires a double click in order to view weather information. This is irritating as it give the application a feeling that it is slow and unresponsive.
-* This also means that the search button does not work as indended. If you double click, it will save the city searched twice to local storage before showing the weather data for that city. 
