@@ -17,7 +17,7 @@ $("#search-button").click(function (e) {
   e.preventDefault();
   var cityName = $("#search-input").val().trim();
   if (cityName === "") {
-    return;
+    cityName = "Greater London";
   }
   let cityNameArr = [];
   cityName = cityName.toLowerCase().split(" ");
