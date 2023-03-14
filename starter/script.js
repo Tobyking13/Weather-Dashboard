@@ -133,7 +133,8 @@ function fiveDayForecast(cityInfo) {
   }).then(function (response) {
     $("#forecast").empty();
 
-    for (i = 0; i < 40; i += 8) {
+    for (i = 7; i < 40; i += 8) {
+      console.log(response)
       const list = response.list[i];
       const date = moment(list.dt_txt).format("MMMM Do YYYY");
       const icon = `https://openweathermap.org/img/wn/${list.weather[0].icon}.png`;
